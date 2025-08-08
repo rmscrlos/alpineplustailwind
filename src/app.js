@@ -1,6 +1,8 @@
 const productList = () => {
 	return {
 		products: [],
+		allProducts: [],
+		searchQuery: '',
 		loading: true,
 		error: null,
 		async init() {
@@ -12,7 +14,8 @@ const productList = () => {
 					throw new Error(`HTTP Error! status: ${response.status}`);
 				}
 
-				this.products = await response.json();
+				this.allProducts = await response.json();
+				this.products = [...this.allProducts];
 			} catch (err) {
 				this.error = err;
 				console.log("Error fetching products:", err);
@@ -20,6 +23,18 @@ const productList = () => {
 				this.loading = false;
 			}
 		},
+		searchProducts() {
+			if (this.searchQuery.trim() === '') {
+				this.products = [...this.allProducts];
+			} else {
+				const query = this.searchQuery.toLowerCase();
+				this.products = this.allProducts.filter(product => 
+					product.name.toLowerCase().includes(query) ||
+					product.description.toLowerCase().includes(query) ||
+					(product.category && product.category.toLowerCase().includes(query))
+				);
+			}
+		}
 	};
 };
 
