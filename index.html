@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Alpine.js + Tailwind CSS</title>
+		<link href="./dist/output.css" rel="stylesheet" />
+		<script
+			defer
+			src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+		></script>
+	</head>
+	<body class="bg-white min-h-screen">
+		<header
+			class="border-b border-gray-200 p-4 flex items-center justify-between"
+		>
+			<div class="flex items-center justify-between w-full max-w-7xl mx-auto">
+				<p>Alpine.js + Tailwind CSS</p>
+				<p>hello.</p>
+			</div>
+		</header>
+		<main class="container p-8 max-w-7xl mx-auto flex flex-col gap-8">
+
+			<!-- Search bar -->
+			<div class="flex-1">
+				<div class="flex items-center justify-center gap-4 mb-4">
+					<input
+						type="text"
+						placeholder="Search..."
+						class="border border-gray-300 rounded-md p-2 w-full"
+					/>
+					<button
+						class="bg-blue-500 text-white px-4 py-2 rounded-md"
+						@click="searchProducts()"
+						>
+						Search
+					</button>	
+				</div>
+				<div class="flex items-center justify-center gap-4 md:hidden">
+					<div class="w-full flex justify-center items-center h-10 bg-gray-100 text-gray-300"> SORT </div>
+					<div class="w-full flex justify-center items-center h-10 bg-gray-100 text-gray-300"> FILTER</div>
+				</div>
+			</div>
+
+
+			<div class="flex items-start gap-8">
+			<!-- Mock sidebar -->
+			<article class="bg-gray-100 w-64 h-[500px] rounded-md items-center justify-center hidden md:flex">
+				<p class="text-gray-300">Sidebar content</p>
+			</article>
+
+			<!-- Products -->
+			<section 
+    x-data="productList" 
+    class="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+    <template x-for="product in products" :key="product.id">
+        <a :href="`productDetail.html?id=${product.id}`" class="border rounded border-gray-200 flex flex-col cursor-pointer">
+            <template x-if="product.images[0]">
+                <img 
+                    :src="product.images[0]" 
+                    alt="product image" 
+                    class="w-[200px] h-[200px] object-cover mx-auto" 
+                />
+            </template>
+            <div class="mb-2 border-t w-full px-3 pt-3">
+                <p x-text="product.name" class="font-semibold"></p>
+                <p x-text="product.description" class="text-sm text-gray-600 line-clamp-2"></p>
+            </div>
+            <p class="px-3 pb-3 font-semibold">$<span x-text="product.price"></span></p>
+        </a>
+    </template>
+</section>
+			</div>
+		</main>
+
+		<script src="./src/app.js"></script>
+	</body>
+</html>
+
+</html>
